@@ -1,0 +1,7 @@
+Main in {
+	{left := Nop right := Nop } -> + -> +('0') -> Out
+	0 -> left
+	1 -> left
+	2 -> Nop -> Nop -> right
+	3 -> Nop -> Nop -> Nop -> Nop -> right
+}

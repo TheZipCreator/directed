@@ -1,0 +1,63 @@
+# Dies when not a multiple of b
+MultipleOf(b) n {
+	{ n b } -> % -> {
+		!=(0) -> Die
+		=(0) -> ret := Use(1) -> Return
+	}
+	n -> ret
+}
+# Dies when a multiple of b
+!MultipleOf(b) n {
+	{ n b } -> % -> {
+		!=(0) -> ret := Use(1) -> Return
+		=(0) -> Die
+	}
+	n -> ret
+}
+
+# Gets the number of digits in a number
+NumDigits num {
+	counter := + -> {
+		pre-counter := MultipleOf(2) -> counter
+		!MultipleOf(2) -> /(2) -> Return
+	}
+	2 -> pre-counter
+	num -> loop := Nop -> /(10) -> {
+		=(0) -> 1 -> funnel := Nop -> counter
+		!=(0) -> {
+			loop
+			2 -> funnel
+		}
+	}
+}
+
+# This halts; that's just because that was the easiest way to implement it.
+# Because of that, a second helper node type exists that calls this and retains the accumulator of the previous value
+OutDecimalHalting num {
+	# Zip each digit together with its index in the number
+	combine := +
+	num -> zip-loop := Nop -> {
+		%(10) -> combine
+		/(10) -> !=(0) -> zip-loop
+	}
+	# A backwards digit counter
+	num -> NumDigits -> counter-loop := Nop -> sub := -(1) -> {
+		>(0) -> counter-loop
+		*(10) -> combine
+	}
+	# Wait an index amount of times, then output
+	combine -> index-loop := Nop -> {
+		<(10) -> +('0') -> Out
+		>=(10) -> -(10) -> index-loop
+	}
+}
+
+OutDecimal num {
+	num -> OutDecimalHalting
+	num -> Nop -> Return
+}
+
+Main in {
+	# Take a number from the input and output it as decimal
+	in -> OutDecimal -> '\n' -> Out
+}

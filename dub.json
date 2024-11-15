@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"TheZipCreator"
+	],
+	"copyright": "Copyright © 2024, TheZipCreator",
+	"dependencies": {
+		"pegged": "~>0.4.9"
+	},
+	"description": "Interpreter for the Directed programming language.",
+	"license": "GPL-3.0-or-later",
+	"name": "directed"
+}

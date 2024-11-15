@@ -239,6 +239,20 @@ class ParameterizedConditionalNodeType(string op, string name = op) : NodeType, 
 	
 	override string toString() const => name~"("~params.map!(x => x.to!string).join(" ")~")";
 }
+/// Unary operator node
+class UnaryOperatorNodeType(string op, string name = op) : NodeType {
+	static typeof(this) instance;
+	
+	static this() { instance = new typeof(this)(); }
+	private this() {}
+	
+	ReturnVal execute(BigInt[] args) {
+		mixin(`auto val = `~op~`args[0];`);
+		return ReturnVal(ReturnType.VALUE, val);
+	}	
+	
+	override string toString() const => name;
+}
 
 /// Node with a subgraph in it
 class GraphNodeType : NodeType, Parameterizable {

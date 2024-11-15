@@ -22,7 +22,7 @@ Directed:
 	
 	Value < Number / Char
 	
-	Number <~ [0-9]+
+	Number <~ '-'? [0-9]+
 	Char <- quote (Escape / .) quote
 	Escape <~ '\\' ([abefnrtv\\] / quote)
 	SafeChar <- [!-&*-Z\\^-z|~]

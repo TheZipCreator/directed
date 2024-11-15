@@ -1,0 +1,8 @@
+# Cat, using the -a input option
+
+Main in {
+	in -> {
+		%(256) -> Out
+		/(256) -> !=(0) -> in
+	}
+}

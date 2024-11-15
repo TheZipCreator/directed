@@ -1,3 +1,5 @@
+# Prints a decimal number (given as input)
+
 # Dies when not a multiple of b
 MultipleOf(b) n {
 	{ n b } -> % -> {
@@ -53,8 +55,12 @@ OutDecimalHalting num {
 }
 
 OutDecimal num {
-	num -> OutDecimalHalting
-	num -> Nop -> Return
+	# Handle sign
+	num -> {
+		<(0) -> Out('-') -> Neg -> OutDecimalHalting
+		>=(0) -> OutDecimalHalting
+	}
+	num -> Nop -> Nop -> Nop -> Return
 }
 
 Main in {

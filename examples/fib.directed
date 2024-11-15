@@ -1,0 +1,9 @@
+# Fibonacci sequence
+
+import "decimal.directed" as Dec
+
+Main {
+	0 -> a := Nop -> Dec.OutDecimal -> Out('\n')
+	1 -> b := Nop -> a
+	{ a b } -> + -> b
+}

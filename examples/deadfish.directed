@@ -1,0 +1,30 @@
+# Deadfish interpreter
+
+import "decimal.directed" as Dec
+
+# Executes a single deadfish instruction, returns the new accumulator
+Execute instruction accumulator {
+	bounds-check := Nop -> {
+		=(-1) -> 0 -> Return
+		=(256) -> 0 -> Return
+		!=(-1) -> !=(256) -> Return
+	}
+	instruction -> {
+		=('i') -> i := Use(1) -> +(1) -> bounds-check
+		=('d') -> d := Use(1) -> -(1) -> bounds-check
+		=('s') -> s := Use(1) -> { Nop Nop } -> * -> bounds-check
+		=('o') -> o := Use(1) -> Dec.OutDecimal -> Out('\n') -> Return
+	}
+	accumulator -> { i d s o }
+}
+
+Main program {
+	program -> loop := Nop -> {
+		%(256) -> exec := Execute
+		/(256) -> {
+			!=(0) -> loop
+			=(0) -> Return
+		}
+	}
+	0 -> accumulator-funnel := Nop -> exec -> accumulator-funnel
+}

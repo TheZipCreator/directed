@@ -1,0 +1,27 @@
+# 99 bottles of beer
+
+import "decimal.directed" as Dec
+
+Plural n {
+	n -> {
+		=(1) -> Return
+		!=(1) -> Out('s') -> Return
+	}
+}
+
+Verse n {
+	final := Out(' ' 'b' 'o' 't' 't' 'l' 'e') -> Plural -> Out(' ' 'o' 'f' ' ' 'b' 'e' 'e' 'r' ' ' 'o' 'n' ' ' 't' 'h' 'e' ' ' 'w' 'a' 'l' 'l' '.' '\n' '\n') -> Return
+	n -> Dec.OutDecimal ->
+	Out(' ' 'b' 'o' 't' 't' 'l' 'e') -> Plural -> Out(' ' 'o' 'f' ' ' 'b' 'e' 'e' 'r' ' ' 'o' 'n' ' ' 't' 'h' 'e' ' ' 'w' 'a' 'l' 'l' ',' '\n') ->
+	Dec.OutDecimal ->
+	Out(' ' 'b' 'o' 't' 't' 'l' 'e') -> Plural -> Out(' ' 'o' 'f' ' ' 'b' 'e' 'e' 'r' '\n') ->
+	Out('T' 'a' 'k' 'e' ' ' 'o' 'n' 'e' ' ' 'd' 'o' 'w' 'n' ',' ' ' 'p' 'a' 's' 's' ' ' 'i' 't' ' ' 'a' 'r' 'o' 'u' 'n' 'd' ',' '\n') -> {
+		!=(1) -> Dec.OutDecimal -> final
+		=(1) -> Out('N' 'o' ' ' 'm' 'o' 'r' 'e') -> final
+	}
+}
+
+Main {
+	# counter
+	99 -> loop := Nop -> >(0) -> Verse -> -(1) -> loop
+}

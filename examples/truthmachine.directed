@@ -1,0 +1,8 @@
+# Truth machine
+
+Main in {
+	in -> {
+		=(0) -> Out('0')
+		=(1) -> loop := Out('1') -> loop
+	}
+}

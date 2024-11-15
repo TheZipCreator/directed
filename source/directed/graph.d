@@ -126,9 +126,8 @@ class LiteralNodeType : NodeType {
 }
 
 /// An output node
-class OutNodeType : NodeType {
+class OutNodeType : NodeType, Parameterizable {
 	static OutNodeType instance;
-
 
 	ReturnVal execute(BigInt[] args) {
 		write(cast(char)(args[0].toInt()));
@@ -137,8 +136,30 @@ class OutNodeType : NodeType {
 	
 	static this() { instance = new OutNodeType(); }
 	private this() {}
+
+	ArgRange parameterRange() => ArgRange(0, size_t.max);
+	NodeType parameterize(BigInt[] params) => new ParameterizedOutNodeType(params);
 	
 	override string toString() const => "Out";
+}
+/// A parameterized output node
+class ParameterizedOutNodeType : NodeType {
+	string output;
+
+	ReturnVal execute(BigInt[] args) {
+		write(output);
+		return ReturnVal(ReturnType.VALUE, args[0]);
+	}
+	
+	this(BigInt[] args) {
+		auto ap = appender!string;
+		foreach(arg; args)
+			ap ~= cast(char)arg.toInt();
+		output = ap.data;
+	}
+	
+	override string toString() const => "Out(\""~output~"\")";
+
 }
 /// An operator
 class OperatorNodeType(string op, string name = op) : NodeType, Junction, Parameterizable {

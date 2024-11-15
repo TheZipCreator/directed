@@ -16,3 +16,4 @@ directed-test-*
 *.lst
 
 graphs/
+examples/test.directed

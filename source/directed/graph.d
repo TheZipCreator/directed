@@ -344,6 +344,8 @@ class Graph {
 	size_t nargs;
 	/// Name of the graph
 	string name;
+	/// Whether this graph was imported from another file
+	bool imported = false;
 	
 	this(Node[] nodes, string name, size_t nparameters, string[] inputNodeNames, Node[] inputNodes) {
 		this.nodes = nodes;
@@ -371,11 +373,12 @@ class Graph {
 	/// Note: produces a subgraph definition; you must wrap this in a larger graph.
 	string graphviz() {
 		auto ap = appender!string;
-		ap ~= "subgraph \"cluster_"~name~"\"{";
-		ap ~= "label=\""~name~"\"; color=blue;";
+		string escape(string s) => s.replace("\"", "\\\"");
+		ap ~= "subgraph \"cluster_"~escape(name)~"\"{";
+		ap ~= "label=\""~escape(name)~"\"; color=blue;";
 		foreach(size_t i, Node node; nodes) {
 			bool input = inputNodes.canFind(node);
-			ap ~= "id"~node.id.to!string~"[label=\""~(input ? node.name : node.type.toString())~"\""~(input ? " color=green" : "")~"];";
+			ap ~= "id"~node.id.to!string~"[label=\""~escape(input ? node.name : node.type.toString())~"\""~(input ? " color=green" : "")~"];";
 			foreach(child; node.children) {
 				ap ~= "id"~node.id.to!string~"->id"~child.id.to!string;
 				if(child.parents.length > 1 && cast(Junction)child.type)

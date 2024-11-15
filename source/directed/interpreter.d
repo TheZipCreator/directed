@@ -407,6 +407,8 @@ class Interpreter {
 						foreach(type; interpreter.types.values) {
 							if(auto g = cast(GraphNodeType)type) {
 								string name = g.graph.name == "Main" ? namespace : namespace~"."~g.graph.name;
+								g.graph.name = name;
+								g.graph.imported = true;
 								types[name] = type;
 							}
 						}
@@ -451,8 +453,10 @@ string codeToGraphviz(string filename, string code) {
 	ap ~= `fontname="Liberation Mono";`;
 	ap ~= `node[fontname="Liberation Mono"];`;
 	ap ~= `edge[fontname="Liberation Mono"];`;
-	foreach(type; interpreter.types.values) {
+	foreach(name, type; interpreter.types) {
 		if(auto g = cast(GraphNodeType)type) {
+			if(g.graph.imported)
+				continue;
 			ap ~= g.graph.graphviz();
 		}
 	}

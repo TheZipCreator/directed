@@ -373,7 +373,7 @@ class Graph {
 		foreach(node; nodes) {
 			if(auto j = cast(Junction)node.type) {
 				if(!j.range.includes(node.parents.length))
-					throw new InterpreterException(node.pos, "Incorrect number of arguments for junction.");
+					throw new InterpreterException(node.pos, "Incorrect number of inputs for junction.");
 			}
 			if(auto p = cast(Parameterizable)node.type) {
 				if(!p.parameterRange.includes(0))

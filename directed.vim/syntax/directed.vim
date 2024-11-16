@@ -7,6 +7,9 @@ hi link directedArrow Operator
 syn match directedAssign /:=/
 hi link directedAssign Operator
 
+syn match directedImport /import *".*" *as *[^ ]*/ contains=directedString,directedType
+hi link directedImport Statement
+
 syn match directedNumber /-\?[0-9]\+/
 hi link directedNumber Number
 
